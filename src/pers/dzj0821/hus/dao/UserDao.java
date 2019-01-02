@@ -39,7 +39,7 @@ public class UserDao extends Dao {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public User findUser(int account) throws ClassNotFoundException, SQLException {
+	public User getUser(int account) throws ClassNotFoundException, SQLException {
 		Connection connection = getConnection();
 		PreparedStatement statement = connection.prepareStatement("SELECT * FROM user WHERE account = ?");
 		statement.setInt(1, account);
