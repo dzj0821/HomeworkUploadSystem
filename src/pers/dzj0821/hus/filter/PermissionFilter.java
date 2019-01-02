@@ -2,7 +2,6 @@ package pers.dzj0821.hus.filter;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Logger;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
