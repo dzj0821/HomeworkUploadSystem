@@ -1,4 +1,4 @@
-package pers.dzj0821.hus;
+package pers.dzj0821.hus.servlet;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
