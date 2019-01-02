@@ -1,0 +1,16 @@
+.main{
+    margin: 0 auto;
+    max-width: 1280px;
+}
+.button-div{
+    margin: 0 auto; 
+    max-width: 44px;
+}
+
+input{
+	border:2px solid black;
+}
+
+input[type="file"]{
+	border:0px solid black;
+}
