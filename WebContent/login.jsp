@@ -1,17 +1,9 @@
-<?php 
-require_once 'hidden/session_start.php';
-require_once 'hidden/config.php';
-
-if(isset($_SESSION['account'])){
-    echo '你已登录！';
-    exit();
-}
-?>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <?php require_once 'hidden/header_head.php'; ?>
+	<%@ include file = "hidden/header_head.jsp" %>
     <title>作业上传系统-登录</title>
     <script>
         function check(account, password){
@@ -32,7 +24,7 @@ if(isset($_SESSION['account'])){
 </head>
 
 <body>
-    <?php require_once 'hidden/header_body.php'; ?>
+	<%@ include file = "hidden/header_body.jsp" %>
     <div class="main">
         <div id="login">
             <h1>Login</h1>

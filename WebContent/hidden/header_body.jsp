@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <?php
 require_once 'session_start.php';
 require_once 'config.php';
