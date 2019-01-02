@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -34,8 +35,14 @@ public class JSPFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		//如果请求的是主页，放行
+		if(request instanceof HttpServletRequest && ((HttpServletRequest)request).getServletPath().equals("/index.jsp")) {
+			chain.doFilter(request, response);
+			return;
+		}
 		if(response instanceof HttpServletResponse) {
 			HttpServletResponse httpServletResponse = (HttpServletResponse)response;
+			
 			httpServletResponse.sendError(404);
 		}
 	}
