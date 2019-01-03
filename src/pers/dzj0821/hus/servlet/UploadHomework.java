@@ -1,0 +1,84 @@
+package pers.dzj0821.hus.servlet;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import pers.dzj0821.hus.dao.HomeworkDao;
+import pers.dzj0821.hus.dao.UserDao;
+import pers.dzj0821.hus.vo.Homework;
+import pers.dzj0821.hus.vo.User;
+
+/**
+ * Servlet implementation class UploadHomework
+ */
+@WebServlet("/UploadHomework")
+public class UploadHomework extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public UploadHomework() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Integer account = (Integer)request.getSession().getAttribute("account");
+		Integer id = (Integer)request.getAttribute("id");
+		if(account == null || id == null) {
+			response.sendRedirect("index.jsp");
+			return;
+		}
+		//获取用户所在班级
+		User user = null;
+		UserDao userDao = new UserDao();
+		try {
+			user = userDao.getUser(account);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			return;
+		}
+		//获取需要提交的作业信息
+		HomeworkDao homeworkDao = new HomeworkDao();
+		Homework homework = null;
+		try {
+			homework = homeworkDao.getHomework(id);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			return;
+		}
+		//如果作业不存在或用户不属于此作业所在的班级
+		if(homework == null || homework.getClassId() != user.getClassId()) {
+			response.sendRedirect("index.jsp");
+			return;
+		}
+		//获取此作业限定的后缀名
+		String suffix = homework.getSuffix();
+		String[] suffixArray = new String[0];
+		//*代表允许全部后缀，多个后缀按照|分隔
+		if(!suffix.equals("*")) {
+			suffixArray = suffix.split("|");
+		}
+		request.setAttribute("suffixArray", suffixArray);
+		request.getRequestDispatcher("upload_homework.jsp").forward(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

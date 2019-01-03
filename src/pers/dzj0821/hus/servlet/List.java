@@ -65,7 +65,7 @@ public class List extends HttpServlet {
 		HomeworkDao homeworkDao = new HomeworkDao();
 		Homework[] homeworks = null;
 		try {
-			homeworks = homeworkDao.getHomework(classId);
+			homeworks = homeworkDao.getHomeworks(classId);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			return;

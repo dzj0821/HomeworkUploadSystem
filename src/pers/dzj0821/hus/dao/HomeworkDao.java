@@ -16,7 +16,7 @@ public class HomeworkDao extends Dao {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public Homework[] getHomework(int classId) throws ClassNotFoundException, SQLException {
+	public Homework[] getHomeworks(int classId) throws ClassNotFoundException, SQLException {
 		Connection connection = getConnection();
 		PreparedStatement statement = connection.prepareStatement("SELECT * FROM homework WHERE class_id = ?");
 		statement.setInt(1, classId);
@@ -30,6 +30,28 @@ public class HomeworkDao extends Dao {
 		statement.close();
 		connection.close();
 		return homeworks;
+	}
+	
+	/**
+	 * 根据唯一id获取作业信息
+	 * @param id 作业的唯一id
+	 * @return 作业的数据，如果未找到返回NULL
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public Homework getHomework(int id) throws ClassNotFoundException, SQLException {
+		Connection connection = getConnection();
+		PreparedStatement statement = connection.prepareStatement("SELECT * FROM homework WHERE id = ?");
+		statement.setInt(1, id);
+		ResultSet set = statement.executeQuery();
+		Homework homework = null;
+		if(set.next()) {
+			homework = new Homework(set);
+		}
+		set.close();
+		statement.close();
+		connection.close();
+		return homework;
 	}
 	
 	public boolean insert(String homeworkName, String text, String suffix, int publisherAccount, int classId) throws SQLException, ClassNotFoundException {
