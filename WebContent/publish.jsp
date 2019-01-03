@@ -1,34 +1,26 @@
-<?php
-require_once 'hidden/session_start.php';
-
-if (!isset($_SESSION['account']) || !isset($_SESSION['permission']) || $_SESSION['permission'] != "administrator") {
-    header('Location: ' .  '/index.php');
-    exit();
-}
-?>
+<%@page import="pers.dzj0821.hus.vo.Class"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+Class[] classes = (Class[])session.getAttribute("manageClass");
+%>
 <html>
     <head>
-        <?php require_once 'hidden/header_head.php'; ?>
+        <%@ include file = "hidden/header_head.jsp" %>
         <title>作业上传系统-发布作业</title>
     </head>
 
     <body>
-        <?php require_once 'hidden/header_body.php'; ?>
+        <%@ include file = "hidden/header_body.jsp" %>
         <div class="main">
-            <form method="POST" action="publish_request.php" role="form">
+            <form method="POST" action="PublishRequest" role="form">
                 <div class="form-group">
                     <label for="name">选择发布的班级：</label>
                     <div>
-                        <?php
-                        foreach ($_SESSION['manage_class'] as $class) {
-                            ?>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" name="class_id[]" value="<?php echo $class['id']; ?>"><?php echo $class['name']; ?>
-                            </label>
-                            <?php
-                        }
-                        ?>
-                        </select>
+                    <% for (Class singleClass : classes) { %>
+                    	<label class="checkbox-inline">
+                        	<input type="checkbox" name="class_id[]" value="<%=singleClass.getId() %>"><%=singleClass.getClassName() %>
+                    	</label>
+                    <% } %>
                     </div>
                 </div>
                 <div class="form-group">
@@ -46,5 +38,6 @@ if (!isset($_SESSION['account']) || !isset($_SESSION['permission']) || $_SESSION
                 </div>
                 <button type="submit" class="btn btn-default">提交</button>
             </form>
+        </div>
     </body>
 </html>
