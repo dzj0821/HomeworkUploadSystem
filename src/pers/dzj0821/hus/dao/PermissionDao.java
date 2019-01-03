@@ -34,6 +34,14 @@ public class PermissionDao extends Dao {
 		return classes;
 	}
 	
+	/**
+	 * 验证某账号是否拥有指定班级的权限
+	 * @param account 需要验证的帐号
+	 * @param classId 需要验证权限的班级
+	 * @return 是否拥有权限
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public boolean isManageThisClass(int account, int classId) throws ClassNotFoundException, SQLException {
 		Connection connection = getConnection();
 		PreparedStatement statement = connection.prepareStatement("SELECT id FROM permission WHERE user_account = ? AND class_id = ?");
