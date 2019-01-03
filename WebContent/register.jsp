@@ -1,28 +1,4 @@
-<?php
-require_once 'hidden/session_start.php';
-require_once 'hidden/config.php';
 
-if(isset($_SESSION['account'])){
-    echo '你已登录！';
-    exit();
-}
-$conn = new mysqli($database_host, $database_account, $database_password, $database_name);
-if ($conn->connect_error) {
-    die("连接失败: " . $conn->connect_error);
-}
-//设置编码否则默认以GBK读出导致乱码
-$conn->query("SET NAMES UTF8");
-$stmt = $conn->prepare("SELECT id, class_name FROM class");
-$stmt->execute();
-$stmt->store_result();
-$stmt->bind_result($id, $class_name);
-for($i = 0; $stmt->fetch(); $i++){
-    $class_list[$i]['id'] = $id;
-    $class_list[$i]['name'] = $class_name;
-}
-$stmt->close();
-$conn->close();
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
