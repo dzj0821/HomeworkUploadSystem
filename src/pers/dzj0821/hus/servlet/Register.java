@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import pers.dzj0821.hus.dao.ClassDao;
+import pers.dzj0821.hus.vo.Class;
 /**
  * Servlet implementation class Register
  */
@@ -34,18 +35,21 @@ public class Register extends HttpServlet {
 		    return;
 		}
 		ClassDao classdao = new ClassDao();
+		Class[] classes = null;
 		try {
-			classdao.getAllClass();
+			classes = classdao.getAllClass();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
+			return;
 		}
+		request.setAttribute("classes", classes);
+		request.getRequestDispatcher("register.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

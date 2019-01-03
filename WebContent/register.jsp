@@ -1,4 +1,8 @@
-
+<%@page import="pers.dzj0821.hus.vo.Class"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+Class[] classes = (Class[])request.getAttribute("classes");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,7 +41,7 @@
     <div class="main" style="text-align: center;">
         <div id="register">  
             <h1>Register</h1>  
-            <form method="POST" action="register_request.php" role="form">  
+            <form method="POST" action="RegisterRequest" role="form">  
                 <input type="text" required="required" placeholder="学号" name="account" />
                 <input type="password" required="required" placeholder="密码" name="password"/>
                 <input type="password" required="required" placeholder="确认密码" id="password_once"/>
@@ -45,7 +49,9 @@
                 <div class="form-group">
                     <label for="name">选择你的班级：</label>
                     <select name="class_id" class="form-control">
-                       
+                    <% for (Class singleClass : classes) { %>
+                        <option value=<%=singleClass.getId() %>><%=singleClass.getClassName() %></option>
+                    <% } %>
                     </select>
                 </div>
                 <button class="but" type="submit" onClick="return check(account.value, password.value, user_name.value, class_id.value);">注册</button>  
