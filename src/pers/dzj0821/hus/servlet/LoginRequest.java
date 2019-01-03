@@ -61,7 +61,7 @@ public class LoginRequest extends HttpServlet {
 		}
 		if(loginSuccess) {
 			try {
-				request.getSession().setAttribute("name", dao.getUser(accountInt));
+				request.getSession().setAttribute("name", dao.getUser(accountInt).getUserName());
 			} catch (NumberFormatException | ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 				return;

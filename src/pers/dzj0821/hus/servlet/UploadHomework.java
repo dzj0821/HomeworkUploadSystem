@@ -74,9 +74,10 @@ public class UploadHomework extends HttpServlet {
 		String[] suffixArray = new String[0];
 		//*代表允许全部后缀，多个后缀按照|分隔
 		if(!suffix.equals("*")) {
-			suffixArray = suffix.split("|");
+			suffixArray = suffix.split("\\|");
 		}
 		request.setAttribute("suffixArray", suffixArray);
+		request.setAttribute("id", id);
 		request.getRequestDispatcher("upload_homework.jsp").forward(request, response);
 	}
 

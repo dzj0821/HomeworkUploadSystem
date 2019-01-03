@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
@@ -55,7 +56,23 @@ public class UploadHomeworkRequest extends HttpServlet {
 		HttpSession session = request.getSession();
 		Integer account = (Integer) session.getAttribute("account");
 		String name = (String) session.getAttribute("name");
-		String id = request.getParameter("id");
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+        factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        upload.setHeaderEncoding("UTF-8"); 
+        List<FileItem> formItems = null;
+		try {
+			formItems = upload.parseRequest(request);
+		} catch (FileUploadException e) {
+			e.printStackTrace();
+			return;
+		}
+		String id = null;
+		for (FileItem fileItem : formItems) {
+			if(fileItem.getFieldName().equals("id")) {
+				id = fileItem.getString();
+			}
+		}
 		// 判断参数是否正确/表单中是否含有文件
 		if (account == null || name == null || id == null || !ServletFileUpload.isMultipartContent(request)) {
 			response.sendRedirect("index.jsp");
@@ -96,7 +113,7 @@ public class UploadHomeworkRequest extends HttpServlet {
 		String[] suffixArray = new String[0];
 		// *代表允许全部后缀，多个后缀按照|分隔
 		if (!suffix.equals("*")) {
-			suffixArray = suffix.split("|");
+			suffixArray = suffix.split("\\|");
 		}
 		UploadDao uploadDao = new UploadDao();
 		Upload[] uploads = null;
@@ -111,18 +128,16 @@ public class UploadHomeworkRequest extends HttpServlet {
 			response.sendRedirect("index.jsp");
 			return;
 		}
-		DiskFileItemFactory factory = new DiskFileItemFactory();
-        factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
-        ServletFileUpload upload = new ServletFileUpload(factory);
-        upload.setHeaderEncoding("UTF-8"); 
-        String uploadPath = getServletContext().getRealPath("/") + "/upload/" + idInt;
+		
+        String uploadPath = getServletContext().getRealPath("/") + "hidden\\upload\\" + idInt;
+        System.out.println(uploadPath);
         File uploadDir = new File(uploadPath);
         //如果保存路径不存在则先创建
         if (!uploadDir.exists()) {
             uploadDir.mkdir();
         }
         try {
-            List<FileItem> formItems = upload.parseRequest(request);
+            
             if (formItems != null && formItems.size() > 0) {
             	//检查每个参数是否为文件
                 for (FileItem item : formItems) {
@@ -141,7 +156,7 @@ public class UploadHomeworkRequest extends HttpServlet {
                     		request.getRequestDispatcher("message.jsp").forward(request, response);
                     		return;
                         }
-                        String fileSuffix = fileName.substring(pos);
+                        String fileSuffix = fileName.substring(pos + 1);
                         if(suffix != "*") {
                         	boolean allowSuffix = false;
                         	for (String singleSuffix : suffixArray) {
