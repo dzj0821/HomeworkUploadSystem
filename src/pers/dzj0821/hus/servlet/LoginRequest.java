@@ -59,7 +59,6 @@ public class LoginRequest extends HttpServlet {
 			e.printStackTrace();
 			return;
 		}
-		System.out.println(loginSuccess);
 		if(loginSuccess) {
 			try {
 				request.getSession().setAttribute("name", dao.getUser(accountInt));

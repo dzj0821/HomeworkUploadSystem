@@ -18,7 +18,7 @@ import pers.dzj0821.hus.dao.PermissionDao;
 /**
  * Servlet Filter implementation class PermissionFilter
  */
-@WebFilter("/PermissionFilter")
+@WebFilter("/*")
 public class PermissionFilter implements Filter {
 
     /**
@@ -42,13 +42,12 @@ public class PermissionFilter implements Filter {
 		if(request instanceof HttpServletRequest) {
 			HttpServletRequest httpServletRequest = (HttpServletRequest)request;
 			HttpSession session = httpServletRequest.getSession();
-			String account = (String) session.getAttribute("account");
-			if(account != null && session.getAttribute("permission") == null) {
-				int accountInt = Integer.parseInt(account);
+			Integer account = (Integer) session.getAttribute("account");
+			if(account != null && (session.getAttribute("permission") == null || session.getAttribute("manageClass") == null)) {
 				PermissionDao dao = new PermissionDao();
 				pers.dzj0821.hus.vo.Class[] classes = null;
 				try {
-					classes = dao.getManageClass(accountInt);
+					classes = dao.getManageClass(account);
 				} catch (ClassNotFoundException | SQLException e) {
 					e.printStackTrace();
 					return;
@@ -57,8 +56,8 @@ public class PermissionFilter implements Filter {
 					session.setAttribute("permission", "general");
 				} else {
 					session.setAttribute("permission", "administrator");
+					session.setAttribute("manageClass", classes);
 				}
-				request.setAttribute("manageClass", classes);
 			}
 		}
 		chain.doFilter(request, response);

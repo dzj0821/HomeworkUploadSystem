@@ -40,16 +40,15 @@ public class PublishRequest extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String account = (String)session.getAttribute("account");
+		Integer account = (Integer)session.getAttribute("account");
 		String permission = (String)session.getAttribute("permission");
-		String[] classIds = request.getParameterValues("class_id");
+		String[] classIds = request.getParameterValues("class_id[]");
 		String homeworkName = request.getParameter("homework_name");
 		String suffix = request.getParameter("suffix");
-		if(account == null || "administrator".equals(permission) || classIds == null || homeworkName == null || suffix == null) {
+		if(account == null || !"administrator".equals(permission) || classIds == null || homeworkName == null || suffix == null) {
 			response.sendRedirect("index.jsp");
 			return;
 		}
-		int accountInt = Integer.parseInt(account);
 		int[] classIdsInt = new int[classIds.length];
 		for(int i = 0; i < classIds.length; i++) {
 			classIdsInt[i] = Integer.parseInt(classIds[i]);
@@ -62,7 +61,7 @@ public class PublishRequest extends HttpServlet {
 			//对于每个班级判断权限
 			boolean havePermission = false;
 			try {
-				havePermission = permissionDao.isManageThisClass(accountInt, classIdsInt[i]);
+				havePermission = permissionDao.isManageThisClass(account, classIdsInt[i]);
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 				return;
@@ -71,7 +70,7 @@ public class PublishRequest extends HttpServlet {
 				continue;
 			}
 			try {
-				homeworkDao.insert(homeworkName, text, suffix, accountInt, classIdsInt[i]);
+				homeworkDao.insert(homeworkName, text, suffix, account, classIdsInt[i]);
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 				//TODO 回滚操作

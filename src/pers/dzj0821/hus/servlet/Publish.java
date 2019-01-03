@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class Publish
@@ -26,9 +27,10 @@ public class Publish extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String account = request.getParameter("account");
-		String permission = request.getParameter("permission");
-		if(account == null || permission == null || !permission.equals("administrator")) {
+		HttpSession session = request.getSession();
+		Integer account = (Integer)session.getAttribute("account");
+		String permission = (String)session.getAttribute("permission");
+		if(account == null || !"administrator".equals(permission)) {
 			response.sendRedirect("index.jsp");
 			return;
 		}

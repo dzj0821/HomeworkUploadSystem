@@ -13,7 +13,7 @@ String permission = (String)session.getAttribute("permission");
 				<% if (account != null) { %>
 					<li><a href="List">作业列表</a></li>
 				<% } %>
-				<% if (permission != null && permission.equals("administrator")) { %>
+				<% if ("administrator".equals(permission)) { %>
 					<li><a href="Publish">发布作业</a></li>
                 <% } %>
 			</ul>
