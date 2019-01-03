@@ -17,11 +17,11 @@ public class PermissionDao extends Dao {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public Class[] getManageClass(String account) throws ClassNotFoundException, SQLException {
+	public Class[] getManageClass(int account) throws ClassNotFoundException, SQLException {
 		Connection connection = getConnection();
 		PreparedStatement statement = connection.prepareStatement(
 				"SELECT * FROM class WHERE id IN (SELECT class_id FROM permission WHERE user_account = ?)");
-		statement.setString(1, account);
+		statement.setInt(1, account);
 		ResultSet set = statement.executeQuery();
 		Class[] classes = new Class[getRows(set)];
 		for(int i = 0; i < classes.length; i++) {
@@ -32,5 +32,18 @@ public class PermissionDao extends Dao {
 		statement.close();
 		connection.close();
 		return classes;
+	}
+	
+	public boolean isManageThisClass(int account, int classId) throws ClassNotFoundException, SQLException {
+		Connection connection = getConnection();
+		PreparedStatement statement = connection.prepareStatement("SELECT id FROM permission WHERE user_account = ? AND class_id = ?");
+		statement.setInt(1, account);
+		statement.setInt(2, classId);
+		ResultSet set = statement.executeQuery();
+		boolean result = set.next();
+		set.close();
+		statement.close();
+		connection.close();
+		return result;
 	}
 }

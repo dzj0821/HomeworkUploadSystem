@@ -42,12 +42,13 @@ public class PermissionFilter implements Filter {
 		if(request instanceof HttpServletRequest) {
 			HttpServletRequest httpServletRequest = (HttpServletRequest)request;
 			HttpSession session = httpServletRequest.getSession();
-			if(session.getAttribute("account") != null && session.getAttribute("permission") == null) {
-				String account = (String) session.getAttribute("account");
+			String account = (String) session.getAttribute("account");
+			if(account != null && session.getAttribute("permission") == null) {
+				int accountInt = Integer.parseInt(account);
 				PermissionDao dao = new PermissionDao();
 				pers.dzj0821.hus.vo.Class[] classes = null;
 				try {
-					classes = dao.getManageClass(account);
+					classes = dao.getManageClass(accountInt);
 				} catch (ClassNotFoundException | SQLException e) {
 					e.printStackTrace();
 					return;
