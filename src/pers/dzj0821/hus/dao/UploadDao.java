@@ -16,6 +16,7 @@ public class UploadDao extends Dao {
 		ResultSet set = statement.executeQuery();
 		Upload[] uploads = new Upload[getRows(set)];
 		for(int i = 0; i < uploads.length; i++) {
+			set.next();
 			uploads[i] = new Upload(set);
 		}
 		set.close();

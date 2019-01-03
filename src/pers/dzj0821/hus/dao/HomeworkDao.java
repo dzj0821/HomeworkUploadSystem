@@ -22,8 +22,8 @@ public class HomeworkDao extends Dao {
 		ResultSet set = statement.executeQuery();
 		Homework[] homeworks = new Homework[getRows(set)];
 		for(int i = 0; i < homeworks.length; i++) {
-			homeworks[i] = new Homework(set);
 			set.next();
+			homeworks[i] = new Homework(set);
 		}
 		set.close();
 		statement.close();

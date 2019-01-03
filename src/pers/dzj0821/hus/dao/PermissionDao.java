@@ -25,8 +25,8 @@ public class PermissionDao extends Dao {
 		ResultSet set = statement.executeQuery();
 		Class[] classes = new Class[getRows(set)];
 		for(int i = 0; i < classes.length; i++) {
-			classes[i] = new Class(set);
 			set.next();
+			classes[i] = new Class(set);
 		}
 		set.close();
 		statement.close();
