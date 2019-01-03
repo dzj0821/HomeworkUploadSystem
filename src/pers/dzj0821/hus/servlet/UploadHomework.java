@@ -34,8 +34,15 @@ public class UploadHomework extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Integer account = (Integer)request.getSession().getAttribute("account");
-		Integer id = (Integer)request.getAttribute("id");
+		String id = request.getParameter("id");
 		if(account == null || id == null) {
+			response.sendRedirect("index.jsp");
+			return;
+		}
+		Integer idInt = null;
+		try {
+			idInt = Integer.valueOf(id);
+		} catch (NumberFormatException e) {
 			response.sendRedirect("index.jsp");
 			return;
 		}
@@ -52,7 +59,7 @@ public class UploadHomework extends HttpServlet {
 		HomeworkDao homeworkDao = new HomeworkDao();
 		Homework homework = null;
 		try {
-			homework = homeworkDao.getHomework(id);
+			homework = homeworkDao.getHomework(idInt);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			return;

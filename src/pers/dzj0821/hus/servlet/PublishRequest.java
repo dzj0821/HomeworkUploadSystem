@@ -25,7 +25,6 @@ public class PublishRequest extends HttpServlet {
      */
     public PublishRequest() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**

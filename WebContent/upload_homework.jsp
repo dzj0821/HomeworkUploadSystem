@@ -11,7 +11,7 @@ String[] suffixArray = (String[])request.getAttribute("suffixArray");
     <body>
         <%@ include file = "hidden/header_body.jsp" %>
         <div class="main">
-            <form method="POST" action="upload_homework_request.php" role="form" enctype="multipart/form-data">
+            <form method="POST" action="UploadHomeworkRequest" role="form" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="name">选择需要提交的文件（大小应小于128M）</label>
                     <input type="text" name="id" value="<?php echo $id; ?>" hidden="hidden" />
