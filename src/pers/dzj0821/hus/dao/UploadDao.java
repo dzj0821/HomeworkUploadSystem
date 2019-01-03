@@ -24,4 +24,26 @@ public class UploadDao extends Dao {
 		connection.close();
 		return uploads;
 	}
+	
+	public boolean insert(int account, int homeworkId, String path) throws ClassNotFoundException, SQLException {
+		Connection connection = getConnection();
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO upload(user_account, homework_id, path, update_time) VALUES(?, ?, ?, NOW())");
+		statement.setInt(1, account);
+		statement.setInt(2, homeworkId);
+		statement.setString(3, path);
+		statement.executeUpdate();
+		statement.close();
+		connection.close();
+		return true;
+	}
+	
+	public boolean delete(int id) throws ClassNotFoundException, SQLException {
+		Connection connection = getConnection();
+		PreparedStatement statement = connection.prepareStatement("DELETE FROM upload WHERE id = ?");
+		statement.setInt(1, id);
+		statement.executeUpdate();
+		statement.close();
+		connection.close();
+		return true;
+	}
 }
