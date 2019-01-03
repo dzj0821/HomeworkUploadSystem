@@ -68,7 +68,7 @@ public class LoginRequest extends HttpServlet {
 				return;
 			}
 			request.getSession().setAttribute("account", accountInt);
-			response.sendRedirect("index.jsp");
+			response.sendRedirect("List");
 		} else {
 			request.setAttribute("message", "用户名或密码错误！");
 			request.setAttribute("url", "Login");
