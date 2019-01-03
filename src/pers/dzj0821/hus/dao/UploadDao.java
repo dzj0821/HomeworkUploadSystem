@@ -10,7 +10,7 @@ import pers.dzj0821.hus.vo.Upload;
 public class UploadDao extends Dao {
 	public Upload[] getUpload(int account, int homeworkId) throws ClassNotFoundException, SQLException {
 		Connection connection = getConnection();
-		PreparedStatement statement = connection.prepareStatement("SELECT * FROM upload WHERE userAccount = ? AND homework_id = ?");
+		PreparedStatement statement = connection.prepareStatement("SELECT * FROM upload WHERE user_account = ? AND homework_id = ?");
 		statement.setInt(1, account);
 		statement.setInt(2, homeworkId);
 		ResultSet set = statement.executeQuery();

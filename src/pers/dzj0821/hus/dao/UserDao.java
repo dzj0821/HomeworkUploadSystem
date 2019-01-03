@@ -19,8 +19,8 @@ public class UserDao extends Dao {
 	 * @throws SQLException
 	 */
 	public boolean login(int account, String password) throws ClassNotFoundException, SQLException {
-		Connection connection = getConnection();
 		String passwordMD5 = Util.MD5(Util.MD5(password + SALT) + SALT);
+		Connection connection = getConnection();
 		PreparedStatement statement = connection.prepareStatement("SELECT user_name FROM user WHERE account = ? AND password_md5 = ?");
 		statement.setInt(1, account);
 		statement.setString(2, passwordMD5);
@@ -31,13 +31,16 @@ public class UserDao extends Dao {
 		connection.close();
 		return result;
 	}
-	public void regist(String account, String password, String user_name, String class_id) throws ClassNotFoundException, SQLException {
+	
+	
+	public void regist(String account, String password, String userName, String classId) throws ClassNotFoundException, SQLException {
+		String passwordMD5 = Util.MD5(Util.MD5(password + SALT) + SALT);
 		Connection connection = getConnection();
 		PreparedStatement statement = connection.prepareStatement("INSERT INTO user(account, password_md5, user_name, class_id) VALUES(?, ?, ?, ?)");
 		statement.setString(1, account);
-		statement.setString(2, password);
-		statement.setString(3, user_name);
-		statement.setString(4,  class_id);
+		statement.setString(2, passwordMD5);
+		statement.setString(3, userName);
+		statement.setString(4, classId);
 		statement.executeUpdate();
 		statement.close();
 		connection.close();

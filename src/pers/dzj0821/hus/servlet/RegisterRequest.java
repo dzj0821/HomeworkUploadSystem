@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import pers.dzj0821.hus.dao.UserDao;
+import pers.dzj0821.hus.vo.User;
 
 /**
  * Servlet implementation class RegisterRequest
@@ -39,41 +40,46 @@ public class RegisterRequest extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		String account = request.getParameter("account");
 		String password = request.getParameter("password");
-		String user_name = request.getParameter("user_name");
-		String class_id = request.getParameter("class_id");
+		String userName = request.getParameter("user_name");
+		String classId = request.getParameter("class_id");
 		
-		if(request.getSession().getAttribute("account") != null || account == null || password == null || user_name == null || class_id == null
+		//TODO 取消了姓名验证
+		if(request.getSession().getAttribute("account") != null || account == null || password == null || userName == null || classId == null
                 || !Pattern.matches("^[0-9]{6,10}$", account) || !Pattern.matches("^[A-Za-z0-9]{6,18}$", password)
-                || !Pattern.matches("^[\\x{4e00}-\\x{9fa5}]{2,4}", user_name) || !Pattern.matches("^[0-9]+$", class_id)){
+                || !Pattern.matches("^[0-9]+$", classId)){
 
 			response.sendRedirect("index.jsp");
 			return;
 		}
 		
+		userName = new String(userName.getBytes("ISO-8859-1"), "UTF-8");
+		
+		int accountInt = Integer.parseInt(account);
 		UserDao dao = new UserDao();
-		boolean registFail = false;
+		//查找账号是否已经存在
+		User user = null;
 		try {
-			registFail = dao.login(Integer.parseInt(account), password);//查找账号是否已经存在
+			user = dao.getUser(accountInt);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			return;
 		}
-		System.out.println(registFail);
-		if(registFail) {
+		if(user != null) {
 			request.setAttribute("message", "此学号已被注册！");
-			request.getRequestDispatcher("register.jsp").forward(request, response);
+			request.setAttribute("url", "Register");
+			request.getRequestDispatcher("message.jsp").forward(request, response);
 		} else {
 			try {
-				dao.regist(account, password, user_name, class_id);
+				dao.regist(account, password, userName, classId);
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 				return;
 			}
 			request.setAttribute("message", "注册成功！");
-			request.getRequestDispatcher("login.jsp").forward(request, response);
+			request.setAttribute("url", "Login");
+			request.getRequestDispatcher("message.jsp").forward(request, response);
 		}
 
 	}

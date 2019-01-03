@@ -75,6 +75,7 @@ public class List extends HttpServlet {
 		UploadDao uploadDao = new UploadDao();
 		UserDao userDao = new UserDao();
 		for(int i = 0; i < homeworks.length; i++) {
+			userClassInfos[i] = new UserClassInfo();
 			int homeworkId = homeworks[i].getId();
 			userClassInfos[i].setHomeworkId(homeworkId);
 			userClassInfos[i].setHomeworkName(homeworks[i].getHomeworkName());

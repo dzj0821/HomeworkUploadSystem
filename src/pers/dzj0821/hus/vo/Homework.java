@@ -27,7 +27,7 @@ public class Homework {
 		this.homeworkName = set.getString("homework_name");
 		this.text = set.getString("text");
 		this.suffix = set.getString("suffix");
-		this.publisherAccount = set.getInt("publish_account");
+		this.publisherAccount = set.getInt("publisher_account");
 		this.classId = set.getInt("class_id");
 	}
 	
