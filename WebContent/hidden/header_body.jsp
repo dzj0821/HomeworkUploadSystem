@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-String account = (String)session.getAttribute("account");
+Integer account = (Integer)session.getAttribute("account");
+String permission = (String)session.getAttribute("permission");
 %>
 <nav class="navbar navbar-inverse" role="navigation">
 	<div class="container-fluid">
@@ -11,10 +12,10 @@ String account = (String)session.getAttribute("account");
 			<ul class="nav navbar-nav">
 				<% if (account != null) { %>
 					<li><a href="List">作业列表</a></li>
-					<% if (account.equals("administrator")) { %>
+				<% } %>
+				<% if (permission != null && permission.equals("administrator")) { %>
 					<li><a href="Publish">发布作业</a></li>
-                	<% }
-				} %>
+                <% } %>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 			<% if (account != null) { %>
