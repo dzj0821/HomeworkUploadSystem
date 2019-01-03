@@ -38,7 +38,7 @@ public class UserDao extends Dao {
 		statement.setString(2, password);
 		statement.setString(3, user_name);
 		statement.setString(4,  class_id);
-		int i = statement.executeUpdate();
+		statement.executeUpdate();
 		statement.close();
 		connection.close();
 		return;
