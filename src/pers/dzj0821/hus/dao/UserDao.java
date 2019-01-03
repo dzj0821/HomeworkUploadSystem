@@ -31,7 +31,18 @@ public class UserDao extends Dao {
 		connection.close();
 		return result;
 	}
-	
+	public void regist(String account, String password, String user_name, String class_id) throws ClassNotFoundException, SQLException {
+		Connection connection = getConnection();
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO user(account, password_md5, user_name, class_id) VALUES(?, ?, ?, ?)");
+		statement.setString(1, account);
+		statement.setString(2, password);
+		statement.setString(3, user_name);
+		statement.setString(4,  class_id);
+		int i = statement.executeUpdate();
+		statement.close();
+		connection.close();
+		return;
+	}
 	/**
 	 * 根据帐号查找用户
 	 * @param account 需要查找的帐号
