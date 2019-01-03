@@ -42,21 +42,19 @@ UserClassInfo[] userClassInfos = request.getAttribute("userClassInfos");
                         </tr>
                     </thead>
                     <tbody>
-                    <% if (userClassInfos != null) {
-                    	for (UserClassInfo userClassInfo : userClassInfos) { %>
+                    <% for (UserClassInfo userClassInfo : userClassInfos) { %>
                         	<tr>
-                                <td>${userClassInfo.getHomeworkName() }</td>
-                                <td>${userClassInfo.getPublisherName() }</td>
-                                <td>${userClassInfo.getUploadId() != null ? "已提交" : "未提交" } </td>
+                                <td><%=userClassInfo.getHomeworkName() %></td>
+                                <td><%=userClassInfo.getPublisherName() %><</td>
+                                <td><%=userClassInfo.getUploadId() != null ? "已提交" : "未提交" %></td>
                                 <td><% if (userClassInfo.getUploadId() == null) { %>
-                                    	<a href="UploadHomework?id=${userClassInfo.getUploadId() }">提交作业</a>
+                                    	<a href="UploadHomework?id=<%=userClassInfo.getUploadId() %>">提交作业</a>
                                     <% } else { %>
-                                        <a href="javascript:void(0)" onclick="del(${userClassInfo.getUploadId() })">删除提交</a>
+                                        <a href="javascript:void(0)" onclick="del(<%=userClassInfo.getUploadId() %>)">删除提交</a>
                                     <% } %>
                                 </td>
                             </tr>
-                        <% }
-					} %>
+                    <% } %>
                     </tbody>
                 </table>
             </div>
