@@ -50,10 +50,11 @@ public class LoginRequest extends HttpServlet {
 			response.sendRedirect("index.jsp");
 			return;
 		}
+		int accountInt = Integer.parseInt(account);
 		UserDao dao = new UserDao();
 		boolean loginSuccess = false;
 		try {
-			loginSuccess = dao.login(Integer.parseInt(account), password);
+			loginSuccess = dao.login(accountInt, password);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			return;
@@ -61,12 +62,12 @@ public class LoginRequest extends HttpServlet {
 		System.out.println(loginSuccess);
 		if(loginSuccess) {
 			try {
-				request.getSession().setAttribute("name", dao.getUser(Integer.parseInt(account)));
+				request.getSession().setAttribute("name", dao.getUser(accountInt));
 			} catch (NumberFormatException | ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 				return;
 			}
-			request.getSession().setAttribute("account", account);
+			request.getSession().setAttribute("account", accountInt);
 			response.sendRedirect("index.jsp");
 		} else {
 			request.setAttribute("message", "用户名或密码错误！");
