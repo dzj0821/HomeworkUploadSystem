@@ -9,7 +9,7 @@ public abstract class Dao {
 	private final static String DRIVER_NAME = "com.mysql.jdbc.Driver";
 	private final static String DATABASE_URL = "jdbc:mysql://localhost:3306/homework_upload?characterEncoding=utf8";
 	private final static String DATABASE_USER = "root";
-	private final static String DATABASE_PASSWORD = "root";
+	private final static String DATABASE_PASSWORD = "123456";
 	
 	protected Connection getConnection() throws ClassNotFoundException, SQLException {
 		Class.forName(DRIVER_NAME);
