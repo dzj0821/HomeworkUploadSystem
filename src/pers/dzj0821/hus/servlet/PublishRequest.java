@@ -2,6 +2,7 @@ package pers.dzj0821.hus.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,6 +46,7 @@ public class PublishRequest extends HttpServlet {
 		String[] classIds = request.getParameterValues("class_id[]");
 		String homeworkName = request.getParameter("homework_name");
 		String suffix = request.getParameter("suffix");
+		String deadline = request.getParameter("deadline");
 		if(account == null || !"administrator".equals(permission) || classIds == null || homeworkName == null || suffix == null) {
 			response.sendRedirect("index.jsp");
 			return;
@@ -53,8 +55,19 @@ public class PublishRequest extends HttpServlet {
 		for(int i = 0; i < classIds.length; i++) {
 			classIdsInt[i] = Integer.parseInt(classIds[i]);
 		}
-		//作业正文内容允许空
-		String text = (String)request.getParameter("text");
+		//作业正文内容和截止时间允许空
+		String text = request.getParameter("text");
+		Date deadlineDate = null;
+		if(text.equals("")) {
+			text = null;
+		}
+		try {
+			deadline = deadline.replaceAll("T", " ") + ":00";
+			deadlineDate = Util.getDateFormater().parse(deadline);
+		} catch (Exception e) {
+			return;
+		}
+		
 		//标题和正文可能存在中文进行转码
 		homeworkName = Util.parseUTF8(homeworkName);
 		if(text != null) {
@@ -76,7 +89,7 @@ public class PublishRequest extends HttpServlet {
 				continue;
 			}
 			try {
-				homeworkDao.insert(homeworkName, text, suffix, account, classIdsInt[i]);
+				homeworkDao.insert(homeworkName, text, suffix, account, classIdsInt[i], deadlineDate);
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 				//TODO 回滚操作

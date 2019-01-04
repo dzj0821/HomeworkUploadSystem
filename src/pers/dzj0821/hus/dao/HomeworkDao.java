@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.Date;
 
+import pers.dzj0821.hus.util.Util;
 import pers.dzj0821.hus.vo.Homework;
 
 public class HomeworkDao extends Dao {
@@ -54,9 +56,9 @@ public class HomeworkDao extends Dao {
 		return homework;
 	}
 	
-	public boolean insert(String homeworkName, String text, String suffix, int publisherAccount, int classId) throws SQLException, ClassNotFoundException {
+	public boolean insert(String homeworkName, String text, String suffix, int publisherAccount, int classId, Date deadline) throws SQLException, ClassNotFoundException {
 		Connection connection = getConnection();
-		PreparedStatement statement = connection.prepareStatement("INSERT INTO homework(homework_name, text, suffix, publisher_account, class_id) VALUES(?, ?, ?, ?, ?)");
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO homework(homework_name, text, suffix, publisher_account, class_id, deadline) VALUES(?, ?, ?, ?, ?, ?)");
 		statement.setString(1, homeworkName);
 		if(text == null) {
 			statement.setNull(2, Types.VARCHAR);
@@ -66,6 +68,11 @@ public class HomeworkDao extends Dao {
 		statement.setString(3, suffix);
 		statement.setInt(4, publisherAccount);
 		statement.setInt(5, classId);
+		if(deadline == null) {
+			statement.setNull(6, Types.TIMESTAMP);
+		} else {
+			statement.setString(6, Util.getDateFormater().format(deadline));
+		}
 		statement.executeUpdate();
 		statement.close();
 		connection.close();

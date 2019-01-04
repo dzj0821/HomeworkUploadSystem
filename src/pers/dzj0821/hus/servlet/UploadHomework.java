@@ -33,6 +33,7 @@ public class UploadHomework extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//TODO 验证截止时间
 		Integer account = (Integer)request.getSession().getAttribute("account");
 		String id = request.getParameter("id");
 		if(account == null || id == null) {

@@ -2,6 +2,7 @@ package pers.dzj0821.hus.vo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 public class Homework {
 	private int id;
@@ -10,16 +11,18 @@ public class Homework {
 	private String suffix;
 	private int publisherAccount;
 	private int classId;
+	private Date deadline;
 	
 	public Homework() {}
 	
-	public Homework(int id, String homeworkName, String text, String suffix, int publisherAccount, int classId) {
+	public Homework(int id, String homeworkName, String text, String suffix, int publisherAccount, int classId, Date deadline) {
 		this.id = id;
 		this.homeworkName = homeworkName;
 		this.text = text;
 		this.suffix = suffix;
 		this.publisherAccount = publisherAccount;
 		this.classId = classId;
+		this.deadline = deadline;
 	}
 	
 	public Homework(ResultSet set) throws SQLException {
@@ -29,6 +32,7 @@ public class Homework {
 		this.suffix = set.getString("suffix");
 		this.publisherAccount = set.getInt("publisher_account");
 		this.classId = set.getInt("class_id");
+		this.deadline = set.getTimestamp("deadline");
 	}
 	
 	
@@ -67,6 +71,14 @@ public class Homework {
 	}
 	public void setClassId(int classId) {
 		this.classId = classId;
+	}
+
+	public Date getDeadline() {
+		return deadline;
+	}
+
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
 	}
 	
 	

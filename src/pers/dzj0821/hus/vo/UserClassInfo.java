@@ -5,10 +5,12 @@ public class UserClassInfo {
 	private String homeworkName;
 	private Integer uploadId;
 	private String publisherName;
+	private String deadline;
+	private HomeworkStatus homeworkStatus;
 	
 	public UserClassInfo() {}
 	
-	public UserClassInfo(int homeworkId, String homeworkName, Integer uploadId, String publisherName) {
+	public UserClassInfo(int homeworkId, String homeworkName, Integer uploadId, String publisherName, String deadline, HomeworkStatus homeworkStatus) {
 		this.homeworkId = homeworkId;
 		this.homeworkName = homeworkName;
 		this.uploadId = uploadId;
@@ -42,6 +44,21 @@ public class UserClassInfo {
 	public void setPublisherName(String publisherName) {
 		this.publisherName = publisherName;
 	}
-	
+
+	public String getDeadline() {
+		return deadline;
+	}
+
+	public void setDeadline(String deadline) {
+		this.deadline = deadline;
+	}
+
+	public HomeworkStatus getHomeworkStatus() {
+		return homeworkStatus;
+	}
+
+	public void setHomeworkStatus(HomeworkStatus homeworkStatus) {
+		this.homeworkStatus = homeworkStatus;
+	}
 	
 }

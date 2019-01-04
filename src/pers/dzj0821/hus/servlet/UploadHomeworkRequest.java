@@ -53,6 +53,7 @@ public class UploadHomeworkRequest extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		//TODO 验证截止时间
 		HttpSession session = request.getSession();
 		Integer account = (Integer) session.getAttribute("account");
 		String name = (String) session.getAttribute("name");

@@ -32,9 +32,12 @@ Class[] classes = (Class[])session.getAttribute("manageClass");
                     <textarea class="form-control" name="text"></textarea>
                 </div>
                 <div class="form-group">
-                    <label style="color: red;" for="name">注意：目前仅允许上传zip文件，以下限制暂时无效</label>
                     <label for="name">限定作业后缀</label>
                     <input type="text" class="form-control" name="suffix" placeholder="如doc，不要输入点，如允许多个后缀用|隔开，如允许所有后缀输入*">
+                </div>
+                <div class="form-group">
+                <label for="name">截止时间（留空则无时间限制）</label>
+                	<input type="datetime-local" class="form-control" name="deadline"/>
                 </div>
                 <button type="submit" class="btn btn-default">提交</button>
             </form>
