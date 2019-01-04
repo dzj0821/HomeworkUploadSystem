@@ -44,13 +44,8 @@ public class PublishRequest extends HttpServlet {
 		Integer account = (Integer)session.getAttribute("account");//获取session中的账号
 		String permission = (String)session.getAttribute("permission");//获取session中的权限
 		String[] classIds = request.getParameterValues("class_id[]");//获取班级id
-		String homeworkName = request.getParameter("homework_name");//获取作业的名�
+		String homeworkName = request.getParameter("homework_name");//获取作业的名称
 		String suffix = request.getParameter("suffix");//获取文件的后缀
-		Integer account = (Integer)session.getAttribute("account");
-		String permission = (String)session.getAttribute("permission");
-		String[] classIds = request.getParameterValues("class_id[]");
-		String homeworkName = request.getParameter("homework_name");
-		String suffix = request.getParameter("suffix");
 		String deadline = request.getParameter("deadline");
 		if(account == null || !"administrator".equals(permission) || classIds == null || homeworkName == null || suffix == null) {
 			response.sendRedirect("index.jsp");
@@ -73,7 +68,7 @@ public class PublishRequest extends HttpServlet {
 			return;
 		}
 		
-		//标题和正文可能存在中文进行转�
+		//标题和正文可能存在中文进行转�
 		homeworkName = Util.parseUTF8(homeworkName);
 		if(text != null) {
 			text = Util.parseUTF8(text);
@@ -101,7 +96,7 @@ public class PublishRequest extends HttpServlet {
 				return;
 			}
 		}
-		request.setAttribute("message", "发布成功�);
+		request.setAttribute("message", "发布成功");
 		request.setAttribute("url", "List");
 		request.getRequestDispatcher("message.jsp").forward(request, response);
 	}
