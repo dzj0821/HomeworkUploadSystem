@@ -40,20 +40,20 @@ public class PublishRequest extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		Integer account = (Integer)session.getAttribute("account");
-		String permission = (String)session.getAttribute("permission");
-		String[] classIds = request.getParameterValues("class_id[]");
-		String homeworkName = request.getParameter("homework_name");
-		String suffix = request.getParameter("suffix");
+		Integer account = (Integer)session.getAttribute("account");//获取session中的账号
+		String permission = (String)session.getAttribute("permission");//获取session中的权限
+		String[] classIds = request.getParameterValues("class_id[]");//获取班级id
+		String homeworkName = request.getParameter("homework_name");//获取作业的名称
+		String suffix = request.getParameter("suffix");//获取文件的后缀
 		if(account == null || !"administrator".equals(permission) || classIds == null || homeworkName == null || suffix == null) {
 			response.sendRedirect("index.jsp");
 			return;
-		}
-		int[] classIdsInt = new int[classIds.length];
+		}//close if 判断信息是否为空
+		int[] classIdsInt = new int[classIds.length];//创建int类型的classID数组
 		for(int i = 0; i < classIds.length; i++) {
 			classIdsInt[i] = Integer.parseInt(classIds[i]);
 		}
-		//作业正文内容允许空
+		//作业允许为空
 		String text = (String)request.getParameter("text");
 		//标题和正文可能存在中文进行转码
 		homeworkName = Util.parseUTF8(homeworkName);
