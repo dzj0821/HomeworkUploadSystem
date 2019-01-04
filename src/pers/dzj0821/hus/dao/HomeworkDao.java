@@ -78,4 +78,14 @@ public class HomeworkDao extends Dao {
 		connection.close();
 		return true;
 	}
+	
+	public boolean delete(int id) throws ClassNotFoundException, SQLException {
+		Connection connection = getConnection();
+		PreparedStatement statement = connection.prepareStatement("DELETE FROM homework WHERE id = ?");
+		statement.setInt(1, id);
+		statement.executeUpdate();
+		statement.close();
+		connection.close();
+		return true;
+	}
 }
