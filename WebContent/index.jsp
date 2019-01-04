@@ -16,7 +16,7 @@
         <%@ include file = "hidden/header_body.jsp" %>
         <div class="main" style="text-align: center;">
            <br><br>
-           <h1>作业上传系统</h1>
+           <h1 style="font-size: 60px;">作业上传系统</h1>
         </div>
         <script src="assets/js/jquery-1.8.2.min.js"></script>
 		<script src="assets/js/supersized.3.2.7.min.js"></script>

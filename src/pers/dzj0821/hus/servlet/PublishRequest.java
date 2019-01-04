@@ -21,63 +21,70 @@ import pers.dzj0821.hus.util.Util;
 @WebServlet("/PublishRequest")
 public class PublishRequest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public PublishRequest() {
-        super();
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public PublishRequest() {
+		super();
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.sendRedirect("index.jsp");
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		Integer account = (Integer)session.getAttribute("account");//获取session中的账号
-		String permission = (String)session.getAttribute("permission");//获取session中的权限
-		String[] classIds = request.getParameterValues("class_id[]");//获取班级id
-		String homeworkName = request.getParameter("homework_name");//获取作业的名称
-		String suffix = request.getParameter("suffix");//获取文件的后缀
+		Integer account = (Integer) session.getAttribute("account");// 获取session中的账号
+		String permission = (String) session.getAttribute("permission");// 获取session中的权限
+		String[] classIds = request.getParameterValues("class_id[]");// 获取班级id
+		String homeworkName = request.getParameter("homework_name");// 获取作业的名称
+		String suffix = request.getParameter("suffix");// 获取文件的后缀
 		String deadline = request.getParameter("deadline");
-		if(account == null || !"administrator".equals(permission) || classIds == null || homeworkName == null || suffix == null) {
+		if (account == null || !"administrator".equals(permission) || classIds == null || homeworkName == null
+				|| suffix == null) {
 			response.sendRedirect("index.jsp");
 			return;
-		}//close if 判断信息是否为空
-		int[] classIdsInt = new int[classIds.length];//创建int类型的classID数组
-		for(int i = 0; i < classIds.length; i++) {
+		} // close if 判断信息是否为空
+		int[] classIdsInt = new int[classIds.length];// 创建int类型的classID数组
+		for (int i = 0; i < classIds.length; i++) {
 			classIdsInt[i] = Integer.parseInt(classIds[i]);
 		}
-		//作业正文内容和截止时间允许空
+		// 作业正文内容和截止时间允许空
 		String text = request.getParameter("text");
 		Date deadlineDate = null;
-		if(text.equals("")) {
+		if (text.equals("")) {
 			text = null;
 		}
-		try {
-			deadline = deadline.replaceAll("T", " ") + ":00";
-			deadlineDate = Util.getDateFormater().parse(deadline);
-		} catch (Exception e) {
-			return;
+		if (deadline != null && !deadline.equals("")) {
+			try {
+				deadline = deadline.replaceAll("T", " ") + ":00";
+				deadlineDate = Util.getDateFormater().parse(deadline);
+			} catch (Exception e) {
+				return;
+			}
 		}
-		
-		//标题和正文可能存在中文进行转换
+
+		// 标题和正文可能存在中文进行转换
 		homeworkName = Util.parseUTF8(homeworkName);
-		if(text != null) {
+		if (text != null) {
 			text = Util.parseUTF8(text);
 		}
-		
+
 		PermissionDao permissionDao = new PermissionDao();
 		HomeworkDao homeworkDao = new HomeworkDao();
-		for(int i = 0; i < classIdsInt.length; i++) {
-			//对于每个班级判断权限
+		for (int i = 0; i < classIdsInt.length; i++) {
+			// 对于每个班级判断权限
 			boolean havePermission = false;
 			try {
 				havePermission = permissionDao.isManageThisClass(account, classIdsInt[i]);
@@ -85,14 +92,14 @@ public class PublishRequest extends HttpServlet {
 				e.printStackTrace();
 				return;
 			}
-			if(!havePermission) {
+			if (!havePermission) {
 				continue;
 			}
 			try {
 				homeworkDao.insert(homeworkName, text, suffix, account, classIdsInt[i], deadlineDate);
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
-				//TODO 回滚操作
+				// TODO 回滚操作
 				return;
 			}
 		}
