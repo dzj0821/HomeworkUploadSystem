@@ -7,29 +7,36 @@ public class UserClassInfo {
 	private String publisherName;
 	private String deadline;
 	private HomeworkStatus homeworkStatus;
-	
-	public UserClassInfo() {}
-	
-	public UserClassInfo(int homeworkId, String homeworkName, Integer uploadId, String publisherName, String deadline, HomeworkStatus homeworkStatus) {
+	private boolean publisher;
+
+	public UserClassInfo() {
+	}
+
+	public UserClassInfo(int homeworkId, String homeworkName, Integer uploadId, String publisherName, String deadline,
+			HomeworkStatus homeworkStatus, boolean publisher) {
 		this.homeworkId = homeworkId;
 		this.homeworkName = homeworkName;
 		this.uploadId = uploadId;
 		this.publisherName = publisherName;
+		this.publisher = publisher;
 	}
-	
+
 	public int getHomeworkId() {
 		return homeworkId;
 	}
+
 	public void setHomeworkId(int homeworkId) {
 		this.homeworkId = homeworkId;
 	}
+
 	public String getHomeworkName() {
 		return homeworkName;
 	}
+
 	public void setHomeworkName(String homeworkName) {
 		this.homeworkName = homeworkName;
 	}
-	
+
 	public Integer getUploadId() {
 		return uploadId;
 	}
@@ -41,6 +48,7 @@ public class UserClassInfo {
 	public String getPublisherName() {
 		return publisherName;
 	}
+
 	public void setPublisherName(String publisherName) {
 		this.publisherName = publisherName;
 	}
@@ -60,5 +68,13 @@ public class UserClassInfo {
 	public void setHomeworkStatus(HomeworkStatus homeworkStatus) {
 		this.homeworkStatus = homeworkStatus;
 	}
-	
+
+	public boolean isPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(boolean publisher) {
+		this.publisher = publisher;
+	}
+
 }

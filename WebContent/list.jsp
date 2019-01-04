@@ -19,9 +19,14 @@ UserClassInfo[] userClassInfos = (UserClassInfo[])request.getAttribute("userClas
             }
         </style>
         <script>
-            function del(id) {
+            function cancel(id) {
                 if (confirm("你确定要删除这个提交吗？")) {
                     window.location.href = "CancelUploadHomeworkRequest?id=" + id;
+                }
+            }
+            function del(id) {
+                if (confirm("你确定要删除这个作业吗？")) {
+                    window.location.href = "DeleteHomeworkRequest?id=" + id;
                 }
             }
         </script>
@@ -67,7 +72,10 @@ UserClassInfo[] userClassInfos = (UserClassInfo[])request.getAttribute("userClas
                                     		<a href="UploadHomework?id=<%=userClassInfo.getHomeworkId() %>">提交作业</a>
                                     	<% }
                                 		} else { %>
-                                        <a href="javascript:void(0)" onclick="del(<%=userClassInfo.getHomeworkId() %>)">删除提交</a>
+                                        <a href="javascript:void(0)" onclick="cancel(<%=userClassInfo.getHomeworkId() %>)">删除提交</a>
+                                    <% } 
+                                    if (userClassInfo.isPublisher()) { %>
+                                    	<a href="javascript:void(0)" onclick="del(<%=userClassInfo.getHomeworkId() %>)">删除作业</a>
                                     <% } %>
                                 </td>
                             </tr>

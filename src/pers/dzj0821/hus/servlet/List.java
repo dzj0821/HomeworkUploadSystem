@@ -117,6 +117,7 @@ public class List extends HttpServlet {
 				return;
 			}
 			userClassInfos[i].setPublisherName(user.getUserName());
+			userClassInfos[i].setPublisher(user.getAccount() == account);
 		}
 		request.setAttribute("userClassInfos", userClassInfos);
 		request.getRequestDispatcher("list.jsp").forward(request, response);
