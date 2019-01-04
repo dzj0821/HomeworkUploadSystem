@@ -130,7 +130,6 @@ public class UploadHomeworkRequest extends HttpServlet {
 		}
 		
         String uploadPath = getServletContext().getRealPath("/") + "hidden\\upload\\" + idInt;
-        System.out.println(uploadPath);
         File uploadDir = new File(uploadPath);
         //如果保存路径不存在则先创建
         if (!uploadDir.exists()) {
