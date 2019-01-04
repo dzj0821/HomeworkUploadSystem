@@ -1,3 +1,4 @@
+<%@page import="pers.dzj0821.hus.vo.HomeworkStatus"%>
 <%@page import="pers.dzj0821.hus.vo.UserClassInfo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
@@ -37,6 +38,7 @@ UserClassInfo[] userClassInfos = (UserClassInfo[])request.getAttribute("userClas
                         <tr>
                             <th>作业名称</th>
                             <th>发布者</th>
+                            <th>截止时间</th>
                             <th>状态</th>
                             <th>操作</th>
                         </tr>
@@ -44,12 +46,27 @@ UserClassInfo[] userClassInfos = (UserClassInfo[])request.getAttribute("userClas
                     <tbody>
                     <% for (UserClassInfo userClassInfo : userClassInfos) { %>
                         	<tr>
-                                <td><%=userClassInfo.getHomeworkName() %></td>
+                                <td><a href="HomeworkDetail?id=<%=userClassInfo.getHomeworkId() %>"><%=userClassInfo.getHomeworkName() %></a></td>
                                 <td><%=userClassInfo.getPublisherName() %></td>
-                                <td><%=userClassInfo.getUploadId() != null ? "已提交" : "未提交" %></td>
-                                <td><% if (userClassInfo.getUploadId() == null) { %>
-                                    	<a href="UploadHomework?id=<%=userClassInfo.getHomeworkId() %>">提交作业</a>
-                                    <% } else { %>
+                                <td><%=userClassInfo.getDeadline() %></td>
+                                <td><% switch(userClassInfo.getHomeworkStatus()){
+                                		case UNDO:
+                                			out.print("未提交");
+                                			break;
+                                		case UPLOADED:
+                                			out.print("已提交");
+                                			break;
+                                		case OVERTIME:
+                                			out.print("已超时");
+                                			break;
+                                }%></td>
+                                <td><% if (userClassInfo.getUploadId() == null) { 
+                                		if(userClassInfo.getHomeworkStatus() == HomeworkStatus.OVERTIME){ %>
+                                			<span>已不可提交</span>
+                                			<% } else { %>
+                                    		<a href="UploadHomework?id=<%=userClassInfo.getHomeworkId() %>">提交作业</a>
+                                    	<% }
+                                		} else { %>
                                         <a href="javascript:void(0)" onclick="del(<%=userClassInfo.getHomeworkId() %>)">删除提交</a>
                                     <% } %>
                                 </td>

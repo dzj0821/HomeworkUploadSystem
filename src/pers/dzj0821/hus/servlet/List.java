@@ -2,6 +2,7 @@ package pers.dzj0821.hus.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +14,9 @@ import javax.servlet.http.HttpSession;
 import pers.dzj0821.hus.dao.HomeworkDao;
 import pers.dzj0821.hus.dao.UploadDao;
 import pers.dzj0821.hus.dao.UserDao;
+import pers.dzj0821.hus.util.Util;
 import pers.dzj0821.hus.vo.Homework;
+import pers.dzj0821.hus.vo.HomeworkStatus;
 import pers.dzj0821.hus.vo.Upload;
 import pers.dzj0821.hus.vo.User;
 import pers.dzj0821.hus.vo.UserClassInfo;
@@ -88,6 +91,23 @@ public class List extends HttpServlet {
 				return;
 			}
 			userClassInfos[i].setUploadId(uploads.length == 0 ? null : uploads[0].getId());
+			Date date = homeworks[i].getDeadline();
+			if(date == null) {
+				userClassInfos[i].setDeadline("无时间限制");
+			} else {
+				userClassInfos[i].setDeadline(Util.getDateFormater().format(date));
+			}
+			
+			if(uploads.length != 0) {
+				userClassInfos[i].setHomeworkStatus(HomeworkStatus.UPLOADED);
+			} else {
+				//如果未超时
+				if(date == null || date.after(new Date())) {
+					userClassInfos[i].setHomeworkStatus(HomeworkStatus.UNDO);
+				} else {
+					userClassInfos[i].setHomeworkStatus(HomeworkStatus.OVERTIME);
+				}
+			}
 			//对每个作业查找发布者名字
 			User user = null;
 			try {

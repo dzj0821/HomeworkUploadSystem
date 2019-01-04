@@ -2,6 +2,7 @@ package pers.dzj0821.hus.util;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
 
 public class Util {
 	private static String toHex(byte[] bytes) {
@@ -33,5 +34,9 @@ public class Util {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static SimpleDateFormat getDateFormater() {
+		return new SimpleDateFormat("yy-MM-dd HH:mm:ss");
 	}
 }
