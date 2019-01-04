@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import pers.dzj0821.hus.dao.HomeworkDao;
 import pers.dzj0821.hus.dao.PermissionDao;
+import pers.dzj0821.hus.util.Util;
 
 /**
  * Servlet implementation class PublishRequest
@@ -54,6 +55,12 @@ public class PublishRequest extends HttpServlet {
 		}
 		//作业正文内容允许空
 		String text = (String)request.getParameter("text");
+		//标题和正文可能存在中文进行转码
+		homeworkName = Util.parseUTF8(homeworkName);
+		if(text != null) {
+			text = Util.parseUTF8(text);
+		}
+		
 		PermissionDao permissionDao = new PermissionDao();
 		HomeworkDao homeworkDao = new HomeworkDao();
 		for(int i = 0; i < classIdsInt.length; i++) {
