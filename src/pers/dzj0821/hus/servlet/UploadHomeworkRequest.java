@@ -59,11 +59,11 @@ public class UploadHomeworkRequest extends HttpServlet {
 		String name = (String) session.getAttribute("name");
 		DiskFileItemFactory factory = new DiskFileItemFactory();
         factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
-        ServletFileUpload upload = new ServletFileUpload(factory);
-        upload.setHeaderEncoding("UTF-8"); 
+        ServletFileUpload servletFileUpload = new ServletFileUpload(factory);
+        servletFileUpload.setHeaderEncoding("UTF-8"); 
         List<FileItem> formItems = null;
 		try {
-			formItems = upload.parseRequest(request);
+			formItems = servletFileUpload.parseRequest(request);
 		} catch (FileUploadException e) {
 			e.printStackTrace();
 			return;
@@ -117,20 +117,20 @@ public class UploadHomeworkRequest extends HttpServlet {
 			suffixArray = suffix.split("\\|");
 		}
 		UploadDao uploadDao = new UploadDao();
-		Upload[] uploads = null;
+		Upload upload = null;
 		try {
-			uploads = uploadDao.getUpload(account, idInt);
+			upload = uploadDao.getUpload(account, idInt);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			return;
 		}
 		//如果已经存在上传记录
-		if(uploads.length != 0) {
+		if(upload != null) {
 			response.sendRedirect("index.jsp");
 			return;
 		}
-		
-        String uploadPath = getServletContext().getRealPath("/") + "hidden\\upload\\" + idInt;
+		String relativePath = "hidden\\upload\\" + idInt;
+        String uploadPath = getServletContext().getRealPath("/");
         File uploadDir = new File(uploadPath);
         //如果保存路径不存在则先创建
         if (!uploadDir.exists()) {
@@ -157,7 +157,7 @@ public class UploadHomeworkRequest extends HttpServlet {
                     		return;
                         }
                         String fileSuffix = fileName.substring(pos + 1);
-                        if(suffix != "*") {
+                        if(!suffix.equals("*")) {
                         	boolean allowSuffix = false;
                         	for (String singleSuffix : suffixArray) {
 								if(singleSuffix.equals(fileSuffix)) {
@@ -171,10 +171,11 @@ public class UploadHomeworkRequest extends HttpServlet {
                         		return;
                         	}
                         }
-                        String filePath = uploadPath + File.separator + account + user.getUserName() + '.' + fileSuffix;
+                        relativePath += File.separator + account + user.getUserName() + '.' + fileSuffix;
+                        String filePath = uploadPath + relativePath;
                         File storeFile = new File(filePath);
                         item.write(storeFile);
-                        uploadDao.insert(account, idInt, filePath);
+                        uploadDao.insert(account, idInt, relativePath);
                         break;
                     }
                 }

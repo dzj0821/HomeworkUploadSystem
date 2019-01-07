@@ -42,22 +42,22 @@ public class CancelUploadHomeworkRequest extends HttpServlet {
 		int idInt = Integer.parseInt(id);
 		//查询是否已经上传过
 		UploadDao uploadDao = new UploadDao();
-		Upload[] uploads = null;
+		Upload upload = null;
 		try {
-			uploads = uploadDao.getUpload(account, idInt);
+			upload = uploadDao.getUpload(account, idInt);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			return;
 		}
 		//如果没有上传记录
-		if(uploads.length == 0) {
+		if(upload == null) {
 			response.sendRedirect("index.jsp");
 			return;
 		}
-		File file = new File(uploads[0].getPath());
+		File file = new File(upload.getPath());
 		file.delete();
 		try {
-			uploadDao.delete(uploads[0].getId());
+			uploadDao.delete(upload.getId());
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			return;
