@@ -49,7 +49,7 @@ public class RegisterRequest extends HttpServlet {
 		String userName = request.getParameter("user_name");
 		String classId = request.getParameter("class_id");
 
-		// TODO 取消了姓名验证
+		// TODO 增加姓名验证
 		if (request.getSession().getAttribute("account") != null || account == null || password == null
 				|| userName == null || classId == null || !Pattern.matches("^[0-9]{6,10}$", account)
 				|| !Pattern.matches("^[A-Za-z0-9]{6,18}$", password) || !Pattern.matches("^[0-9]+$", classId)) {

@@ -8,6 +8,8 @@ public class UserClassInfo {
 	private String deadline;
 	private HomeworkStatus homeworkStatus;
 	private boolean publisher;
+	private int uploadedNum;
+	private int totalNum;
 
 	public UserClassInfo() {
 	}
@@ -75,6 +77,22 @@ public class UserClassInfo {
 
 	public void setPublisher(boolean publisher) {
 		this.publisher = publisher;
+	}
+
+	public int getUploadedNum() {
+		return uploadedNum;
+	}
+
+	public void setUploadedNum(int uploadedNum) {
+		this.uploadedNum = uploadedNum;
+	}
+
+	public int getTotalNum() {
+		return totalNum;
+	}
+
+	public void setTotalNum(int totalNum) {
+		this.totalNum = totalNum;
 	}
 
 }

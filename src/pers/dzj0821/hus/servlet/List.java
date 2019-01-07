@@ -83,14 +83,14 @@ public class List extends HttpServlet {
 			userClassInfos[i].setHomeworkId(homeworkId);
 			userClassInfos[i].setHomeworkName(homeworks[i].getHomeworkName());
 			//对每个作业查找用户是否已经提交过
-			Upload[] uploads = null;
+			Upload upload = null;
 			try {
-				uploads = uploadDao.getUpload(account, homeworkId);
+				upload = uploadDao.getUpload(account, homeworkId);
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 				return;
 			}
-			userClassInfos[i].setUploadId(uploads.length == 0 ? null : uploads[0].getId());
+			userClassInfos[i].setUploadId(upload == null ? null : upload.getId());
 			Date date = homeworks[i].getDeadline();
 			if(date == null) {
 				userClassInfos[i].setDeadline("无时间限制");
@@ -98,7 +98,7 @@ public class List extends HttpServlet {
 				userClassInfos[i].setDeadline(Util.getDateFormater().format(date));
 			}
 			
-			if(uploads.length != 0) {
+			if(upload != null) {
 				userClassInfos[i].setHomeworkStatus(HomeworkStatus.UPLOADED);
 			} else {
 				//如果未超时
@@ -118,6 +118,17 @@ public class List extends HttpServlet {
 			}
 			userClassInfos[i].setPublisherName(user.getUserName());
 			userClassInfos[i].setPublisher(user.getAccount() == account);
+			
+			//如果是管理员还需要传递完成作业的人数和总人数
+			if("administrator".equals(request.getSession().getAttribute("permission"))) {
+				try {
+					userClassInfos[i].setTotalNum(userDao.getUsers(classId).length);
+					userClassInfos[i].setUploadedNum(uploadDao.getUploads(homeworkId).length);
+				} catch (ClassNotFoundException | SQLException e) {
+					e.printStackTrace();
+					return;
+				}
+			}
 		}
 		request.setAttribute("userClassInfos", userClassInfos);
 		request.getRequestDispatcher("list.jsp").forward(request, response);
