@@ -3,6 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 UserHomeworkInfo[] userHomeworkInfos = (UserHomeworkInfo[])request.getAttribute("userHomeworkInfos");
+Integer id = (Integer)request.getAttribute("id");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,11 +25,13 @@ UserHomeworkInfo[] userHomeworkInfos = (UserHomeworkInfo[])request.getAttribute(
         <%@ include file = "hidden/header_body.jsp" %>
         <div class="main" style="text-align: center;">
             <h1 style="text-align:center;">作业提交详情</h1>
-
+            <form action="DownloadRequest" method="GET">
+            <input type="text" name="id" value="<%=id %>" hidden="true" />
             <div class="table-responsive">
                 <table class="table table-striped" style="margin:0 auto;">
                     <thead>
                         <tr>
+                        	<th>批量下载</th>
                             <th>用户姓名</th>
                             <th>是否已经提交</th>
                             <th>提交时间</th>
@@ -38,6 +41,7 @@ UserHomeworkInfo[] userHomeworkInfos = (UserHomeworkInfo[])request.getAttribute(
                     <tbody>
                     <% for (UserHomeworkInfo userHomeworkInfo : userHomeworkInfos) { %>
                         	<tr>
+                        		<td><input type="checkbox" name="accounts" value="<%=userHomeworkInfo.getUserAccount() %>" /></td>
                                 <td><%=userHomeworkInfo.getUserName() %></td>
                                 <td><%=userHomeworkInfo.isUploaded() ? "是" : "否" %></td>
                                 <td><%=userHomeworkInfo.isUploaded() ? userHomeworkInfo.getUploadTime() : "-" %></td>
@@ -47,6 +51,10 @@ UserHomeworkInfo[] userHomeworkInfos = (UserHomeworkInfo[])request.getAttribute(
                     </tbody>
                 </table>
             </div>
+            <div>
+            <button type="submit" class="btn btn-primary" style="float:left;">批量下载</button>
+            </div>
+            </form>
             <% 
             //分页
             /*

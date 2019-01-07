@@ -83,6 +83,7 @@ public class HomeworkUploadInfo extends HttpServlet {
 			}
 		}
 		request.setAttribute("userHomeworkInfos", userHomeworkInfos);
+		request.setAttribute("id", idInt);
 		request.getRequestDispatcher("homework_upload_info.jsp").forward(request, response);
 	}
 
