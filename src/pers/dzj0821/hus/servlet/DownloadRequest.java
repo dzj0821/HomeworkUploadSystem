@@ -36,7 +36,11 @@ public class DownloadRequest extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//TODO 权限验证
+		//验证权限
+		if(!"administrator".equals(request.getSession().getAttribute("permission"))) {
+			response.sendRedirect("index.jsp");
+			return;
+		}
 		String[] accounts = request.getParameterValues("accounts");
 		String id = request.getParameter("id");
 		Integer idInt = Integer.parseInt(id);
