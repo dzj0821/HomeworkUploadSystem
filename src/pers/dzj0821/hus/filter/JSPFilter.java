@@ -11,29 +11,15 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet Filter implementation class JSPFilter
- */
 @WebFilter("*.jsp")
 public class JSPFilter implements Filter {
 
-    /**
-     * Default constructor. 
-     */
     public JSPFilter() {
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see Filter#destroy()
-	 */
 	public void destroy() {
-		// TODO Auto-generated method stub
 	}
-
-	/**
-	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-	 */
+	
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		//如果请求的是主页，放行
 		if(request instanceof HttpServletRequest && ((HttpServletRequest)request).getServletPath().equals("/index.jsp")) {
@@ -47,11 +33,7 @@ public class JSPFilter implements Filter {
 		}
 	}
 
-	/**
-	 * @see Filter#init(FilterConfig)
-	 */
-	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
-	}
+
+	public void init(FilterConfig fConfig) throws ServletException {}
 
 }

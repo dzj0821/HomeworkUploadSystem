@@ -24,23 +24,17 @@ import pers.dzj0821.hus.vo.UserHomeworkInfo;
 @WebServlet("/HomeworkUploadInfo")
 public class HomeworkUploadInfo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public HomeworkUploadInfo() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//TODO 权限验证
+	public HomeworkUploadInfo() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO 权限验证
 		String id = request.getParameter("id");
 		Integer idInt = Integer.parseInt(id);
-		//获取作业的班级
+		// 获取作业的班级
 		HomeworkDao homeworkDao = new HomeworkDao();
 		Homework homework = null;
 		try {
@@ -67,14 +61,14 @@ public class HomeworkUploadInfo extends HttpServlet {
 			return;
 		}
 		UserHomeworkInfo[] userHomeworkInfos = new UserHomeworkInfo[users.length];
-		for(int i = 0; i < userHomeworkInfos.length; i++) {
+		for (int i = 0; i < userHomeworkInfos.length; i++) {
 			userHomeworkInfos[i] = new UserHomeworkInfo();
 			int account = users[i].getAccount();
 			userHomeworkInfos[i].setUserAccount(account);
 			userHomeworkInfos[i].setUserName(users[i].getUserName());
 			userHomeworkInfos[i].setUploaded(false);
-			for(int j = 0; j < uploads.length; j++) {
-				if(uploads[j].getUserAccount() == account) {
+			for (int j = 0; j < uploads.length; j++) {
+				if (uploads[j].getUserAccount() == account) {
 					userHomeworkInfos[i].setUploaded(true);
 					userHomeworkInfos[i].setUploadTime(Util.getDateFormater().format(uploads[j].getUpdateTime()));
 					userHomeworkInfos[i].setUploadFileURL(uploads[j].getPath());
@@ -87,11 +81,8 @@ public class HomeworkUploadInfo extends HttpServlet {
 		request.getRequestDispatcher("homework_upload_info.jsp").forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 

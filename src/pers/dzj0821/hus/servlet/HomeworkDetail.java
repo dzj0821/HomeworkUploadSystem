@@ -23,8 +23,7 @@ public class HomeworkDetail extends HttpServlet {
      * @see HttpServlet#HttpServlet()
      */
     public HomeworkDetail() {
-        super();
-        // TODO Auto-generated constructor stub
+        super();
     }
 
 	/**

@@ -21,29 +21,20 @@ import pers.dzj0821.hus.dao.PermissionDao;
 @WebFilter("/*")
 public class PermissionFilter implements Filter {
 
-    /**
-     * Default constructor. 
-     */
-    public PermissionFilter() {
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see Filter#destroy()
-	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
+	public PermissionFilter() {
 	}
 
-	/**
-	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-	 */
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		if(request instanceof HttpServletRequest) {
-			HttpServletRequest httpServletRequest = (HttpServletRequest)request;
+	public void destroy() {
+	}
+
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+		if (request instanceof HttpServletRequest) {
+			HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 			HttpSession session = httpServletRequest.getSession();
 			Integer account = (Integer) session.getAttribute("account");
-			if(account != null && (session.getAttribute("permission") == null || session.getAttribute("manageClass") == null)) {
+			if (account != null
+					&& (session.getAttribute("permission") == null || session.getAttribute("manageClass") == null)) {
 				PermissionDao dao = new PermissionDao();
 				pers.dzj0821.hus.vo.Class[] classes = null;
 				try {
@@ -52,7 +43,7 @@ public class PermissionFilter implements Filter {
 					e.printStackTrace();
 					return;
 				}
-				if(classes.length == 0) {
+				if (classes.length == 0) {
 					session.setAttribute("permission", "general");
 				} else {
 					session.setAttribute("permission", "administrator");
@@ -63,11 +54,7 @@ public class PermissionFilter implements Filter {
 		chain.doFilter(request, response);
 	}
 
-	/**
-	 * @see Filter#init(FilterConfig)
-	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
 	}
 
 }

@@ -14,29 +14,20 @@ import pers.dzj0821.hus.dao.UserDao;
 import pers.dzj0821.hus.vo.Homework;
 import pers.dzj0821.hus.vo.User;
 
-/**
- * Servlet implementation class UploadHomework
- */
 @WebServlet("/UploadHomework")
 public class UploadHomework extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UploadHomework() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//TODO 验证截止时间
-		Integer account = (Integer)request.getSession().getAttribute("account");
+	public UploadHomework() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO 验证截止时间
+		Integer account = (Integer) request.getSession().getAttribute("account");
 		String id = request.getParameter("id");
-		if(account == null || id == null) {
+		if (account == null || id == null) {
 			response.sendRedirect("index.jsp");
 			return;
 		}
@@ -47,7 +38,7 @@ public class UploadHomework extends HttpServlet {
 			response.sendRedirect("index.jsp");
 			return;
 		}
-		//获取用户所在班级
+		// 获取用户所在班级
 		User user = null;
 		UserDao userDao = new UserDao();
 		try {
@@ -56,7 +47,7 @@ public class UploadHomework extends HttpServlet {
 			e.printStackTrace();
 			return;
 		}
-		//获取需要提交的作业信息
+		// 获取需要提交的作业信息
 		HomeworkDao homeworkDao = new HomeworkDao();
 		Homework homework = null;
 		try {
@@ -65,16 +56,16 @@ public class UploadHomework extends HttpServlet {
 			e.printStackTrace();
 			return;
 		}
-		//如果作业不存在或用户不属于此作业所在的班级
-		if(homework == null || homework.getClassId() != user.getClassId()) {
+		// 如果作业不存在或用户不属于此作业所在的班级
+		if (homework == null || homework.getClassId() != user.getClassId()) {
 			response.sendRedirect("index.jsp");
 			return;
 		}
-		//获取此作业限定的后缀名
+		// 获取此作业限定的后缀名
 		String suffix = homework.getSuffix();
 		String[] suffixArray = new String[0];
-		//*代表允许全部后缀，多个后缀按照|分隔
-		if(!suffix.equals("*")) {
+		// *代表允许全部后缀，多个后缀按照|分隔
+		if (!suffix.equals("*")) {
 			suffixArray = suffix.split("\\|");
 		}
 		request.setAttribute("suffixArray", suffixArray);
@@ -82,11 +73,8 @@ public class UploadHomework extends HttpServlet {
 		request.getRequestDispatcher("upload_homework.jsp").forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 

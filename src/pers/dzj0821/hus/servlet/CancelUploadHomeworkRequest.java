@@ -13,34 +13,25 @@ import javax.servlet.http.HttpServletResponse;
 import pers.dzj0821.hus.dao.UploadDao;
 import pers.dzj0821.hus.vo.Upload;
 
-/**
- * Servlet implementation class CancelUploadHomeworkRequest
- */
 @WebServlet("/CancelUploadHomeworkRequest")
 public class CancelUploadHomeworkRequest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public CancelUploadHomeworkRequest() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//TODO 验证作业是否超时
-		Integer account = (Integer)request.getSession().getAttribute("account");
+	public CancelUploadHomeworkRequest() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO 验证作业是否超时
+		Integer account = (Integer) request.getSession().getAttribute("account");
 		String id = request.getParameter("id");
-		if(account == null || id == null) {
+		if (account == null || id == null) {
 			response.sendRedirect("index.jsp");
 			return;
 		}
 		int idInt = Integer.parseInt(id);
-		//查询是否已经上传过
+		// 查询是否已经上传过
 		UploadDao uploadDao = new UploadDao();
 		Upload upload = null;
 		try {
@@ -49,8 +40,8 @@ public class CancelUploadHomeworkRequest extends HttpServlet {
 			e.printStackTrace();
 			return;
 		}
-		//如果没有上传记录
-		if(upload == null) {
+		// 如果没有上传记录
+		if (upload == null) {
 			response.sendRedirect("index.jsp");
 			return;
 		}
@@ -63,15 +54,12 @@ public class CancelUploadHomeworkRequest extends HttpServlet {
 			return;
 		}
 		request.setAttribute("message", "文件删除成功!");
-        request.setAttribute("url", "List");
-        request.getRequestDispatcher("message.jsp").forward(request, response);
+		request.setAttribute("url", "List");
+		request.getRequestDispatcher("message.jsp").forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 

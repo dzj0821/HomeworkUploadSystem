@@ -13,35 +13,20 @@ import javax.servlet.http.HttpServletResponse;
 import pers.dzj0821.hus.dao.UserDao;
 import pers.dzj0821.hus.vo.User;
 
-/**
- * Servlet implementation class RegisterRequest
- */
 @WebServlet("/RegisterRequest")
 public class RegisterRequest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
 	public RegisterRequest() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		response.sendRedirect("index.jsp");
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String account = request.getParameter("account");

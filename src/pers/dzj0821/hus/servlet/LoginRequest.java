@@ -12,31 +12,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import pers.dzj0821.hus.dao.UserDao;
 
-/**
- * Servlet implementation class LoginRequest
- */
 @WebServlet("/LoginRequest")
 public class LoginRequest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public LoginRequest() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.sendRedirect("index.jsp");
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String account = request.getParameter("account");
 		String password = request.getParameter("password");
