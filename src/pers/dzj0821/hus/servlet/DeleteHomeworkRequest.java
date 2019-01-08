@@ -22,6 +22,9 @@ public class DeleteHomeworkRequest extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO 验证权限
+		if(!"administrator".equals(request.getSession().getAttribute("permission"))) {
+			return;
+		}
 		String id = request.getParameter("id");
 		Integer idInt = Integer.parseInt(id);
 		HomeworkDao homeworkDao = new HomeworkDao();

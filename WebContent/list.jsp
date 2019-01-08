@@ -72,7 +72,7 @@ boolean admin = "administrator".equals(session.getAttribute("permission"));
                                 	} %></td>
                                 <td><% if(admin){
                                 	out.print("<a href='HomeworkUploadInfo?id=" + userClassInfo.getHomeworkId() +"'>查看作业提交详情</a>");
-                                } else {
+                                } //else {
                                 	if (userClassInfo.getUploadId() == null) { 
                                 		if(userClassInfo.getHomeworkStatus() == HomeworkStatus.OVERTIME){ %>
                                 			<span>已不可提交</span>
@@ -84,7 +84,7 @@ boolean admin = "administrator".equals(session.getAttribute("permission"));
                                     <% } 
                                     if (userClassInfo.isPublisher()) { %>
                                     	<a href="javascript:void(0)" onclick="del(<%=userClassInfo.getHomeworkId() %>)">删除作业</a>
-                                    <% } %>
+                                    <% //} %>
                                 </td>
                             </tr>
                     <% } 

@@ -32,6 +32,9 @@ public class HomeworkUploadInfo extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO 权限验证
+		if(!"administrator".equals(request.getSession().getAttribute("permission"))) {
+			return;
+		}
 		String id = request.getParameter("id");
 		Integer idInt = Integer.parseInt(id);
 		// 获取作业的班级
