@@ -57,7 +57,7 @@ boolean admin = "administrator".equals(session.getAttribute("permission"));
                                 <td><%=userClassInfo.getDeadline() %></td>
                                 <td><% if(admin){
                                 		out.print(userClassInfo.getUploadedNum() + "/" + userClassInfo.getTotalNum());
-                                	} else {
+                                	} //else {
                                 		switch(userClassInfo.getHomeworkStatus()){
                             			case UNDO:
                             				out.print("未提交");
@@ -69,7 +69,7 @@ boolean admin = "administrator".equals(session.getAttribute("permission"));
                             				out.print("已超时");
                             				break;
                             			}
-                                	} %></td>
+                                	//} %></td>
                                 <td><% if(admin){
                                 	out.print("<a href='HomeworkUploadInfo?id=" + userClassInfo.getHomeworkId() +"'>查看作业提交详情</a>");
                                 } //else {
