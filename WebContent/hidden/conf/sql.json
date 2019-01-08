@@ -1,0 +1,6 @@
+{
+	"driver_name": "com.mysql.jdbc.Driver",
+	"url": "jdbc:mysql://localhost:3306/homework_upload?characterEncoding=utf8&useSSL=false",
+	"user": "root",
+	"password": "root"
+}
