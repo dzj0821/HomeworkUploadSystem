@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -30,7 +32,14 @@ public abstract class Dao {
 			return;
 		}
 		// 从WEB-INF中的classes返回到WebContent需要返回2次
-		String path = Dao.class.getClassLoader().getResource("..\\..\\hidden\\conf\\sql.json").getPath();
+		String path = null;
+		try {
+			//getPath的结果是URL编码后的路径，需要解码
+			path = URLDecoder.decode(Dao.class.getClassLoader().getResource("..\\..\\hidden\\conf\\sql.json").getPath(), "UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+			return;
+		}
 		String driverNameKey = "driver_name";
 		String databaseUrlKey = "url";
 		String databaseUserKey = "user";
