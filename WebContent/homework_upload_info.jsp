@@ -41,7 +41,7 @@ Integer id = (Integer)request.getAttribute("id");
                     <tbody>
                     <% for (UserHomeworkInfo userHomeworkInfo : userHomeworkInfos) { %>
                         	<tr>
-                        		<td><input type="checkbox" name="accounts" value="<%=userHomeworkInfo.getUserAccount() %>" /></td>
+                        		<td><input type="checkbox" name="accounts" value="<%=userHomeworkInfo.getUserAccount() %>" <%=userHomeworkInfo.isUploaded() ? "" : "disabled" %>/></td>
                                 <td><%=userHomeworkInfo.getUserName() %></td>
                                 <td><%=userHomeworkInfo.isUploaded() ? "是" : "否" %></td>
                                 <td><%=userHomeworkInfo.isUploaded() ? userHomeworkInfo.getUploadTime() : "-" %></td>
