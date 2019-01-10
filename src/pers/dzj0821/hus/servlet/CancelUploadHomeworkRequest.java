@@ -45,7 +45,8 @@ public class CancelUploadHomeworkRequest extends HttpServlet {
 			response.sendRedirect("index.jsp");
 			return;
 		}
-		File file = new File(upload.getPath());
+		String uploadPath = getServletContext().getRealPath("/");
+		File file = new File(uploadPath + upload.getPath());
 		file.delete();
 		try {
 			uploadDao.delete(upload.getId());
