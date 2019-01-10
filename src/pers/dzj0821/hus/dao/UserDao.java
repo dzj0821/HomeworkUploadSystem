@@ -69,7 +69,7 @@ public class UserDao extends Dao {
 	}
 	
 	/**
-	 * 查询指定班级的用户，不包括管理员
+	 * 查询指定班级的用户
 	 * @param classId
 	 * @return
 	 * @throws ClassNotFoundException
@@ -77,7 +77,7 @@ public class UserDao extends Dao {
 	 */
 	public User[] getUsers(int classId) throws ClassNotFoundException, SQLException {
 		Connection connection = getConnection();
-		PreparedStatement statement = connection.prepareStatement("SELECT * FROM user WHERE class_id = ? AND account NOT IN (SELECT user_account FROM permission)");
+		PreparedStatement statement = connection.prepareStatement("SELECT * FROM user WHERE class_id = ?");
 		statement.setInt(1, classId);
 		ResultSet set = statement.executeQuery();
 		User[] users = new User[getRows(set)];
