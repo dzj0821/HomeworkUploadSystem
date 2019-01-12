@@ -29,16 +29,13 @@ public class RegisterRequest extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String sessionAccount = (String) request.getSession().getAttribute("account");
 		String account = request.getParameter("account");
 		String password = request.getParameter("password");
 		String userName = request.getParameter("user_name");
 		String classId = request.getParameter("class_id");
 
-		// TODO 增加姓名验证
-		if (request.getSession().getAttribute("account") != null || account == null || password == null
-				|| userName == null || classId == null || !Pattern.matches("^[0-9]{6,10}$", account)
-				|| !Pattern.matches("^[A-Za-z0-9]{6,18}$", password) || !Pattern.matches("^[0-9]+$", classId)) {
-
+		if (!verify(sessionAccount, account, password, userName, classId)) {
 			response.sendRedirect("index.jsp");
 			return;
 		}
@@ -72,5 +69,15 @@ public class RegisterRequest extends HttpServlet {
 		request.getRequestDispatcher("message.jsp").forward(request, response);
 
 	}
-
+	
+	private boolean verify(String sessionAccount, String account, String password, String userName, String classId) {
+		if (sessionAccount != null || account == null || password == null
+				|| userName == null || classId == null || !Pattern.matches("^[0-9]{6,10}$", account)
+				|| !Pattern.matches("^[A-Za-z0-9]{6,18}$", password) || !Pattern.matches("^[0-9]+$", classId) 
+				|| !Pattern.matches("^[\u4E00-\u9FA5]{2,4}$", userName)) {
+			return false;
+		}
+		return true;
+	}
+	
 }
