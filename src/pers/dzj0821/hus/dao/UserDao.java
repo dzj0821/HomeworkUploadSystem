@@ -32,7 +32,15 @@ public class UserDao extends Dao {
 		return result;
 	}
 	
-	
+	/**
+	 * 注册操作
+	 * @param account 注册的用户名
+	 * @param password 注册的密码
+	 * @param userName 姓名
+	 * @param classId 所属班级id
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void regist(String account, String password, String userName, String classId) throws ClassNotFoundException, SQLException {
 		String passwordMD5 = Util.MD5(Util.MD5(password + SALT) + SALT);
 		Connection connection = getConnection();

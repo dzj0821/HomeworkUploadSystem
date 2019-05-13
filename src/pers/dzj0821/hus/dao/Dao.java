@@ -25,9 +25,13 @@ public abstract class Dao {
 	private static String DATABASE_USER = null;
 	private static String DATABASE_PASSWORD = null;
 	private static boolean inited = false;
+	
+	public final static void init() {
+		init("..\\..\\hidden\\conf\\sql.json");
+	}
 
 	// 从配置文件中加载数据库配置
-	public final static void init() {
+	public final static void init(String configPath) {
 		if (inited) {
 			return;
 		}
@@ -35,7 +39,7 @@ public abstract class Dao {
 		String path = null;
 		try {
 			//getPath的结果是URL编码后的路径，需要解码
-			path = URLDecoder.decode(Dao.class.getClassLoader().getResource("..\\..\\hidden\\conf\\sql.json").getPath(), "UTF-8");
+			path = URLDecoder.decode(Dao.class.getClassLoader().getResource(configPath).getPath(), "UTF-8");
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 			return;
