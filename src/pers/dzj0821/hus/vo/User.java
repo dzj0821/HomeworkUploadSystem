@@ -25,6 +25,20 @@ public class User {
 		this.classId = set.getInt("class_id");
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof User)) {
+			return false;
+		}
+		User user = (User) obj;
+		return account == user.account && passwordMD5.equals(passwordMD5) && userName.equals(user.userName) && classId == user.classId;
+	}
+	
+	@Override
+	public int hashCode() {
+		return account % 37 + passwordMD5.hashCode() + userName.hashCode() + classId % 17;
+	}
+	
 	public int getAccount() {
 		return account;
 	}
